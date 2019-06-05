@@ -1,10 +1,14 @@
 package pl.dro.anna.skills_collector.model.dao;
 
 import org.hibernate.SessionFactory;
+import pl.dro.anna.skills_collector.model.entities.Skill;
+import pl.dro.anna.skills_collector.model.entities.Source;
 import pl.dro.anna.skills_collector.model.entities.User;
 
 
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserDao extends BaseDao {
 
@@ -56,4 +60,19 @@ public class UserDao extends BaseDao {
                         .setParameter("password", password)
                         .getResultList());
     }
+
+    public List<Skill> getAllSkillsByUsername(String username) {
+        return super.produceInTransaction(
+                session -> session.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
+                        .setParameter("username", username)
+                        .getResultList()
+                        .stream()
+                        .map(user -> user.getKnownSources())
+                        .flatMap(Collection::stream)
+                        .map(source -> source.getAttachedSkills())
+                        .flatMap(Collection::stream)
+                        .collect(Collectors.toList())
+        );
+    }
+
 }

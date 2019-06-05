@@ -16,7 +16,7 @@
             <li><a href="/logout">Wylogowanie</a></li>
             <li><a href="/user/skills">Strona główna</a></li>
             <li><a href="/user/sources">Źródła wiedzy</a></li>
-            <li><a href="/user/uknown-sources">Nieznane źródła wiedzy</a></li>
+            <li><a href="/user/unknown-sources">Nieznane źródła wiedzy</a></li>
         </ul>
     </div>
 </header>
