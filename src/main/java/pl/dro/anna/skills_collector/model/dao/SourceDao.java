@@ -50,4 +50,13 @@ public class SourceDao extends BaseDao {
                         .getResultStream()
                         .collect(Collectors.toSet()));
     }
+
+    public Set<Source> getAllUnknownSources(String username) {
+        return super.produceInTransaction(
+                session -> session
+                        .createQuery("SELECT s FROM Source s", Source.class)
+                        .getResultStream()
+                        .filter(source -> !getAllByUsername(username).contains(source))
+                        .collect(Collectors.toSet()));
+    }
 }
